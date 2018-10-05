@@ -24,14 +24,14 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'
-    compileOnly 'com.android.support:appcompat-v7:28.0.0-rc02'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
 }
 
 publish {
     userOrg = 'werner'//bintray.com用户名
     groupId = 'com.werner'//jcenter上的路径
     artifactId = 'videoplayer'//项目名称
-    publishVersion = '6.3'//版本号
+    publishVersion = '6.5'//版本号
     desc = 'videoplayer'//描述，不重要
     website = 'https://github.com/WernerLuo/JiaoZiVideoPlayer__demo'
 }

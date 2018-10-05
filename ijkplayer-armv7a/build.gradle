@@ -1,5 +1,5 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.novoda.bintray-release'
+//apply plugin: 'com.novoda.bintray-release'
 
 android {
     // http://tools.android.com/tech-docs/new-build-system/tips
@@ -28,11 +28,11 @@ dependencies {
 }
 
 //添加
-publish {
-    userOrg = 'werner'//bintray.com用户名
-    groupId = 'com.werner'//jcenter上的路径
-    artifactId = 'ijkplayer-armv7a'//项目名称
-    publishVersion = '0.8.8'//版本号
-    desc = 'ijkplayer-armv7a'//描述，不重要
-    website = 'https://github.com/WernerLuo/JiaoZiVideoPlayer__demo'
-}
+//publish {
+//    userOrg = 'werner'//bintray.com用户名
+//    groupId = 'com.werner'//jcenter上的路径
+//    artifactId = 'ijkplayer-armv7a'//项目名称
+//    publishVersion = '0.8.8'//版本号
+//    desc = 'ijkplayer-armv7a'//描述，不重要
+//    website = 'https://github.com/WernerLuo/JiaoZiVideoPlayer__demo'
+//}

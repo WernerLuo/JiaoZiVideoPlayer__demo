@@ -464,11 +464,14 @@ public abstract class Jzvd extends FrameLayout implements View.OnClickListener, 
                 //quit fullscreen
                 backPress();
             } else {
-                Log.d(TAG, "toFullscreenActivity [" + this.hashCode() + "] ");
-                onEvent(JZUserAction.ON_ENTER_FULLSCREEN);
-                startWindowFullscreen();
+                entryFullScreen();
             }
         }
+    }
+
+    public void entryFullScreen(){
+        onEvent(JZUserAction.ON_ENTER_FULLSCREEN);
+        startWindowFullscreen();
     }
 
     @Override
@@ -907,6 +910,8 @@ public abstract class Jzvd extends FrameLayout implements View.OnClickListener, 
             } catch (IllegalStateException e) {
                 e.printStackTrace();
                 return position;
+            } catch (NullPointerException e){
+                return position;
             }
         }
         return position;
@@ -920,6 +925,8 @@ public abstract class Jzvd extends FrameLayout implements View.OnClickListener, 
             duration = JZMediaManager.getDuration();
         } catch (IllegalStateException e) {
             e.printStackTrace();
+            return duration;
+        } catch (NullPointerException e){
             return duration;
         }
         return duration;
@@ -980,8 +987,7 @@ public abstract class Jzvd extends FrameLayout implements View.OnClickListener, 
             FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             vp.addView(jzvd, lp);
-            jzvd.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN);
+            jzvd.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN);
             jzvd.setUp(jzDataSource, JzvdStd.SCREEN_WINDOW_FULLSCREEN);
             jzvd.setState(currentState);
             jzvd.addTextureView();
