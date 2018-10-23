@@ -4,9 +4,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.werner.jiaozivideoplayer__demo.MyJzvdStd
+    <!--<com.werner.jiaozivideoplayer__demo.MyJzvdStd-->
+    <!--android:id="@+id/video_player"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="210dp"/>-->
+
+    <cn.jzvd.JzvdStd
         android:id="@+id/video_player"
         android:layout_width="match_parent"
         android:layout_height="210dp"/>
+
+    <Button
+        android:id="@+id/start"
+        android:layout_width="match_parent"
+        android:layout_marginTop="30dp"
+        android:layout_height="40dp"
+        android:onClick="onClick"
+        android:text="start"/>
+
 
 </LinearLayout>

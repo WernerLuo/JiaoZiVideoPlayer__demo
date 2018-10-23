@@ -45,6 +45,10 @@ public abstract class Jzvd extends FrameLayout implements View.OnClickListener, 
     public static final int SCREEN_WINDOW_FULLSCREEN = 2;
     public static final int SCREEN_WINDOW_TINY = 3;
 
+    public static final int MEDIA_INFO_BUFFERING_START = 701;
+    public static final int MEDIA_INFO_BUFFERING_END = 702;
+
+    public static final int CURRENT_STATE_IDLE = -1;
     public static final int CURRENT_STATE_NORMAL = 0;
     public static final int CURRENT_STATE_PREPARING = 1;
     public static final int CURRENT_STATE_PREPARING_CHANGING_URL = 2;
@@ -61,7 +65,7 @@ public abstract class Jzvd extends FrameLayout implements View.OnClickListener, 
     public static boolean TOOL_BAR_EXIST = true;
     public static int FULLSCREEN_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_SENSOR;
     public static int NORMAL_ORIENTATION = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
-    public static boolean SAVE_PROGRESS = true;
+    public static boolean SAVE_PROGRESS = false;
     public static boolean WIFI_TIP_DIALOG_SHOWED = false;
     public static int VIDEO_IMAGE_DISPLAY_TYPE = 0;
     public static long CLICK_QUIT_FULLSCREEN_TIME = 0;
@@ -93,7 +97,7 @@ public abstract class Jzvd extends FrameLayout implements View.OnClickListener, 
         }
     };
     protected static JZUserAction JZ_USER_EVENT;
-    protected static Timer UPDATE_PROGRESS_TIMER;
+    protected Timer UPDATE_PROGRESS_TIMER;
     public int currentState = -1;
     public int currentScreen = -1;
     public long seekToInAdvance = 0;
@@ -140,6 +144,7 @@ public abstract class Jzvd extends FrameLayout implements View.OnClickListener, 
             JzvdMgr.completeAll();
             JZMediaManager.instance().positionInList = -1;
             JZMediaManager.instance().releaseMediaPlayer();
+            JZMediaManager.jzMediaManager = null;
         }
     }
 
@@ -664,6 +669,21 @@ public abstract class Jzvd extends FrameLayout implements View.OnClickListener, 
         JZMediaManager.instance().prepare();
     }
 
+    public void changeUrl(JZDataSource jzDataSource, long seekToInAdvance) {
+        currentState = CURRENT_STATE_PREPARING_CHANGING_URL;
+        this.seekToInAdvance = seekToInAdvance;
+        this.jzDataSource = jzDataSource;
+        if (JzvdMgr.getSecondFloor() != null && JzvdMgr.getFirstFloor() != null) {
+            JzvdMgr.getFirstFloor().jzDataSource = jzDataSource;
+        }
+        JZMediaManager.setDataSource(jzDataSource);
+        JZMediaManager.instance().prepare();
+    }
+
+    public void changeUrl(String url, String title, long seekToInAdvance) {
+        changeUrl(new JZDataSource(url, title), seekToInAdvance);
+    }
+
     public void onStatePrepared() {//因为这个紧接着就会进入播放状态，所以不设置state
         if (seekToInAdvance != 0) {
             JZMediaManager.seekTo(seekToInAdvance);
@@ -880,10 +900,18 @@ public abstract class Jzvd extends FrameLayout implements View.OnClickListener, 
         }
     }
 
-    public void setProgressAndText(int progress, long position, long duration) {
-//        Log.d(TAG, "setProgressAndText: progress=" + progress + " position=" + position + " duration=" + duration);
+    public void onProgress(int progress, long position, long duration) {
+//        Log.d(TAG, "onProgress: progress=" + progress + " position=" + position + " duration=" + duration);
         if (!mTouchingProgressBar) {
-            if (progress != 0) progressBar.setProgress(progress);
+            if (seekToManulPosition != -1) {
+                if (seekToManulPosition > progress) {
+                    return;
+                } else {
+                    seekToManulPosition = -1;
+                }
+            } else {
+                if (progress != 0) progressBar.setProgress(progress);
+            }
         }
         if (position != 0) currentTimeTextView.setText(JZUtils.stringForTime(position));
         totalTimeTextView.setText(JZUtils.stringForTime(duration));
@@ -956,9 +984,12 @@ public abstract class Jzvd extends FrameLayout implements View.OnClickListener, 
         if (currentState != CURRENT_STATE_PLAYING &&
                 currentState != CURRENT_STATE_PAUSE) return;
         long time = seekBar.getProgress() * getDuration() / 100;
+        seekToManulPosition = seekBar.getProgress();
         JZMediaManager.seekTo(time);
         Log.i(TAG, "seekTo " + time + " [" + this.hashCode() + "] ");
     }
+
+    public int seekToManulPosition = -1;
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -987,7 +1018,7 @@ public abstract class Jzvd extends FrameLayout implements View.OnClickListener, 
             FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             vp.addView(jzvd, lp);
-            jzvd.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN);
+            jzvd.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
             jzvd.setUp(jzDataSource, JzvdStd.SCREEN_WINDOW_FULLSCREEN);
             jzvd.setState(currentState);
             jzvd.addTextureView();
@@ -1162,7 +1193,7 @@ public abstract class Jzvd extends FrameLayout implements View.OnClickListener, 
                         long position = getCurrentPositionWhenPlaying();
                         long duration = getDuration();
                         int progress = (int) (position * 100 / (duration == 0 ? 1 : duration));
-                        setProgressAndText(progress, position, duration);
+                        onProgress(progress, position, duration);
                     }
                 });
             }

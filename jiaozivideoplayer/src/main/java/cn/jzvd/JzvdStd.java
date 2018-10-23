@@ -164,6 +164,16 @@ public class JzvdStd extends Jzvd {
     }
 
     @Override
+    public void onInfo(int what, int extra) {
+        super.onInfo(what, extra);
+        if (what == MEDIA_INFO_BUFFERING_START) {
+            loadingProgressBar.setVisibility(View.VISIBLE);
+        } else if (what == MEDIA_INFO_BUFFERING_END) {
+            loadingProgressBar.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
     public int getLayoutId() {
         return R.layout.jz_layout_standard;
     }
@@ -183,6 +193,14 @@ public class JzvdStd extends Jzvd {
     @Override
     public void changeUrl(int urlMapIndex, long seekToInAdvance) {
         super.changeUrl(urlMapIndex, seekToInAdvance);
+        loadingProgressBar.setVisibility(VISIBLE);
+        startButton.setVisibility(INVISIBLE);
+    }
+
+    @Override
+    public void changeUrl(JZDataSource jzDataSource, long seekToInAdvance) {
+        super.changeUrl(jzDataSource, seekToInAdvance);
+        titleTextView.setText(jzDataSource.title);
         loadingProgressBar.setVisibility(VISIBLE);
         startButton.setVisibility(INVISIBLE);
     }
@@ -477,14 +495,15 @@ public class JzvdStd extends Jzvd {
     }
 
     @Override
-    public void setProgressAndText(int progress, long position, long duration) {
-        super.setProgressAndText(progress, position, duration);
+    public void onProgress(int progress, long position, long duration) {
+        super.onProgress(progress, position, duration);
         if (progress != 0) bottomProgressBar.setProgress(progress);
     }
 
     @Override
     public void setBufferProgress(int bufferProgress) {
         super.setBufferProgress(bufferProgress);
+        Log.d("bufferProgress", bufferProgress+"");
         if (bufferProgress != 0) bottomProgressBar.setSecondaryProgress(bufferProgress);
     }
 

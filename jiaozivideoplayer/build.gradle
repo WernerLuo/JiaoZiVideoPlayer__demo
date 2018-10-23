@@ -7,8 +7,8 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 83
-        versionName "6.3_preview"
+        versionCode 84
+        versionName "6.3.1_preview"
     }
     buildTypes {
         release {
@@ -31,7 +31,7 @@ publish {
     userOrg = 'werner'//bintray.com用户名
     groupId = 'com.werner'//jcenter上的路径
     artifactId = 'videoplayer'//项目名称
-    publishVersion = '6.5'//版本号
-    desc = 'videoplayer'//描述，不重要
+    publishVersion = '6.9'//版本号
+    desc = 'video_player'//描述，不重要
     website = 'https://github.com/WernerLuo/JiaoZiVideoPlayer__demo'
 }
