@@ -1,1 +1,1 @@
-include ':app', ':jiaozivideoplayer', ':ijkplayer-armv7a', ':ijkplayer-x86'
+include ':app', ':jiaozivideoplayer', ':ijkplayer-armv7a', ':ijkplayer-x86', ':ijkplayer-arm64', ':ijkplayer-armv5', ':ijkplayer-x86_64'

@@ -20,8 +20,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         myJzvdStd = findViewById(R.id.video_player);
-        myJzvdStd.setUp("rtsp://192.168.1.254/xxx.mov", " ", JzvdStd.SCREEN_WINDOW_NORMAL);
-//        myJzvdStd.setUp("http://192.168.1.254/DCIM/Movie/2018_1022_091314_054F.MP4", " ", JzvdStd.SCREEN_WINDOW_NORMAL);
+        myJzvdStd.setUp("rtsp://192.168.42.1/live", " ", JzvdStd.SCREEN_WINDOW_NORMAL);
         Jzvd.setMediaInterface(new JZMediaIjkplayer());
 
         myJzvdStd.startVideo();
@@ -36,18 +35,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        Jzvd.releaseAllVideos();
-//        myJzvdStd.setUp("rtsp://192.168.1.254/xxx.mov", " ", JzvdStd.SCREEN_WINDOW_NORMAL);
-        myJzvdStd.setUp("http://192.168.1.254:8192", " ", JzvdStd.SCREEN_WINDOW_NORMAL);
-        Jzvd.setMediaInterface(new JZMediaIjkplayer());
-        myJzvdStd.startVideo();
-//        if (v.getId() == R.id.start){
-//            Jzvd.releaseAllVideos();
-//            myJzvdStd.setUp(currentStreamUrl, " ", JzvdStd.SCREEN_WINDOW_NORMAL);
-//            Jzvd.setMediaInterface(new JZMediaIjkplayer());
-//            myJzvdStd.startVideo();
-//        } else if (v.getId() == R.id.stop){
-//
-//        }
     }
 }
