@@ -27,4 +27,12 @@ dependencies {
 }
 
 //添加
-
+//apply plugin: 'com.novoda.bintray-release'
+//publish {
+//    userOrg = 'werner'//bintray.com用户名
+//    groupId = 'com.werner'//jcenter上的路径
+//    artifactId = 'ijkplayer-arm64'//项目名称
+//    publishVersion = '0.8.8.1'//版本号
+//    desc = 'ijkplayer-arm64'//描述，不重要
+//    website = 'https://github.com/WernerLuo/JiaoZiVideoPlayer__demo'
+//}

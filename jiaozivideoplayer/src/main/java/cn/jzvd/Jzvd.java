@@ -1,6 +1,6 @@
 package cn.jzvd;
 
-import android.annotation.SuppressLint;
+import  android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.hardware.Sensor;

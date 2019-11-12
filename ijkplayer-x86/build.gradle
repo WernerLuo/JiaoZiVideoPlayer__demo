@@ -26,3 +26,13 @@ dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
 }
 
+//添加
+//apply plugin: 'com.novoda.bintray-release'
+//publish {
+//    userOrg = 'werner'//bintray.com用户名
+//    groupId = 'com.werner'//jcenter上的路径
+//    artifactId = 'ijkplayer-x86'//项目名称
+//    publishVersion = '0.8.8.1'//版本号
+//    desc = 'ijkplayer-x86'//描述，不重要
+//    website = 'https://github.com/WernerLuo/JiaoZiVideoPlayer__demo'
+//}
